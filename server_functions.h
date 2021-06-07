@@ -528,7 +528,7 @@ enterRAM: // another point that can be jumped back to
 	// check if input is valid
 	if (RAM != "") {
 		bool validRAMChar = false;
-		if (RAM.back() == 'M' || RAM.back() == 'G' || RAM.back() == 'm' || RAM.back() == 'G') validRAMChar = true;
+		if (RAM.back() == 'M' || RAM.back() == 'G' || RAM.back() == 'm' || RAM.back() == 'g') validRAMChar = true;
 		if (!isNumber(RAM.substr(0, RAM.size() - 1)) || validRAMChar == false) {
 			cls();
 			std::cout << "Invalid amount of RAM. Check that you typed it in correctly.\n";
