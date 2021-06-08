@@ -44,7 +44,7 @@ int majorVersions(int serverSoftwareIndex) {
 		// set minimum and maximum versions for different software
 		int min = 0, max = 0;
 
-		if (serverSoftwareIndex == 1) min = 7, max = 16; // vanilla
+		if (serverSoftwareIndex == 1) min = 7, max = 17; // vanilla
 		else if (serverSoftwareIndex == 2) min = 7, max = 16; // forge
 		else if (serverSoftwareIndex == 3) min = 14, max = 16; // fabric
 		else if (serverSoftwareIndex == 4) min = 7, max = 16; // bukkit
@@ -93,6 +93,7 @@ std::map<int, std::map<int, std::vector<std::string> > > versions{ // a map that
 			{8, std::vector<std::string> {"1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"}}, // 1.14
 			{9, std::vector<std::string> {"1.15", "1.15.1", "1.15.2"}}, // 1.15
 			{10, std::vector<std::string> {"1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5"}}, // 1.16
+			{11, std::vector<std::string> {"1.17"}}, // 1.17
 		}
 	},
 	{
