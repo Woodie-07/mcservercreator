@@ -31,14 +31,48 @@ bool isNumber(const std::string& s)
 }
 
 // check if java is installed and working
-int javaCheck(bool forge) {
+int javaCheck(bool forge, int requiredJavaMajorVersion) {
+	std::string javaHome = getenv("JAVA_HOME"); // get value of JAVA_HOME environment variable
+
+	int javaMajorVersion = 0; // variable that will eventually contain the major version of java
+
+	std::fstream releaseFile; // creates a variable that can be used to read a file
+	std::string releaseFilePath = javaHome + "\\release";
+	releaseFile.open(releaseFilePath, std::ios::in); // open a file to perform read operation using file object
+	if (releaseFile.is_open()) { // checking whether the file is open (exists and can be accessed)
+
+		std::string line; // a variable that will be used for each line of the file
+
+		while (std::getline(releaseFile, line)) {  // read data from file object and put it into string.
+			int findResult = line.find("JAVA_VERSION="); // find JAVA_VERSION= in the line
+
+			if (findResult != std::string::npos) { // if it was there
+				std::string javaVersion = "";
+				javaVersion = line.substr(findResult + 13); // get the text 13 characters after the start of JAVA_VERSION= which will be something like "11.0.11" for java 11
+				javaVersion.erase(std::remove(javaVersion.begin(), javaVersion.end(), '\"'), javaVersion.end()); // remove the double quotes
+				findResult = javaVersion.find("."); // find a dot in the line
+				if (findResult != std::string::npos) { // if it was there
+					std::string javaMajorVersionStr = javaVersion.substr(0, findResult); // get the text between the dot and the start of the string
+					if (javaMajorVersionStr == "1") { // if the first number is 1 (such as with java 8 where the version is 1.8.0)
+						findResult = javaVersion.find("1."); // find 1. in the line
+						javaMajorVersionStr = javaVersion.substr(2, findResult + 2); // get the number 2 characters after the start of 1.
+					}
+
+					std::istringstream(javaMajorVersionStr) >> javaMajorVersion; // convert it to an int, finally giving us the java major version.
+				}
+			}
+		}
+		releaseFile.close();   //close the file object.
+	}
+
+
 	std::string response;
-	if (system("java -version >nul 2>&1") == 1) {
+	if (javaMajorVersion == 0) {
 		if (forge) {
-			std::cout << "You do not have Java installed. You cannot make a Forge server without Java. Would you like to install it? [Y/n] ";
+			std::cout << "You either don't have Java or it is installed incorrectly. You cannot make a Forge server without Java. Would you like to install it? [Y/n] ";
 		}
 		else {
-			std::cout << "You do not have Java installed. The server will not run without Java. Would you like to install it? [Y/n] ";
+			std::cout << "You either don't have Java or it is installed incorrectly. The server will not run without Java. Would you like to install it? [Y/n] ";
 		}
 		std::getline(std::cin, response);
 		if (response != "n" && response != "N") {
@@ -49,6 +83,11 @@ int javaCheck(bool forge) {
 		else if (forge) {
 			return(1);
 		}
+	}
+	else if (javaMajorVersion < requiredJavaMajorVersion) { // if the current java macjor version is lower than the required one for the version
+		std::cout << "Your currently installed Java version is too old for the version of Minecraft you are trying to create a server for. Please update to at least Java " << requiredJavaMajorVersion << " or your server won't launch.\n"; // warn the user about the old java version
+		std::cout << "Press any key to continue...\n";
+		_getch(); // wait until a key is pressed (give user time to read it)
 	}
 	else {
 		std::cout << "Java already installed.\n";

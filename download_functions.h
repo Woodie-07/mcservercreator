@@ -3,6 +3,7 @@
 #include <map>
 #include <stdlib.h>
 #include "userinput.h"
+#include <math.h>
 
 
 // dont really know what this does, needed it for CURL.

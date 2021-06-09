@@ -477,13 +477,6 @@ int createServer() {
 create: // create point that can be jumped to
 	cls();
 	int serverSoftwareIndex = serverSoftware(); // run serverSoftware function (which asks user what server software they want) and saves the value it returns into a variable
-	if (serverSoftwareIndex == 2) {
-		if (javaCheck(true) == 1) return (1); // if forge is selected and the user chooses not to install java, the program will exit.
-	}
-	else {
-		javaCheck(false); // check if java is installed
-	}
-	cls(); // clear screen
 
 	// Get human readable server software
 	std::string software = getHRSoftware(serverSoftwareIndex);
@@ -506,6 +499,20 @@ create: // create point that can be jumped to
 		goto create; // if not then go back to the start so the user can do it again
 	}
 
+	// get minecraft major version
+	int selectedMajorVersion = 0;
+	std::istringstream(version.substr(version.find(".") + 1)) >> selectedMajorVersion;
+
+	int requiredMajorJavaVersion = 8; // a variable for the minimum required java version
+	if (selectedMajorVersion >= 17) requiredMajorJavaVersion = 16; // if it is minecraft 1.17 or above, the minimum java version is 16
+
+	if (serverSoftwareIndex == 2) {
+		if (javaCheck(true, requiredMajorJavaVersion) == 1) return (1); // if forge is selected and the user chooses not to install java, the program will exit.
+	}
+	else {
+		javaCheck(false, requiredMajorJavaVersion); // check if java is installed
+	}
+	cls(); // clear screen
 	
 	std::string serverLoc = getServerLoc(false);
 
