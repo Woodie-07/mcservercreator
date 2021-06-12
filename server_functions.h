@@ -643,7 +643,7 @@ finalChoice: // create point to be jumped to
 	}
 	default:
 	{
-		std::cout << "Invalid option. Please choose either 1, 2 or 3.";
+		std::cout << "Invalid option. Please choose either 1, 2 or 3.\n";
 		goto finalChoice; // if invalid option, jump back
 	}
 	}
