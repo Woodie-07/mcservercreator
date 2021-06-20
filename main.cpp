@@ -11,7 +11,7 @@
 
 // main function that is run when server starts
 int main() {
-	float currentVersion = 2.3;
+	float currentVersion = 2.4;
 	std::string response;
 
 	// check if version is old
