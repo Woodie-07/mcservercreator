@@ -93,7 +93,7 @@ std::map<int, std::map<int, std::vector<std::string> > > versions{ // a map that
 			{8, std::vector<std::string> {"1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"}}, // 1.14
 			{9, std::vector<std::string> {"1.15", "1.15.1", "1.15.2"}}, // 1.15
 			{10, std::vector<std::string> {"1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5"}}, // 1.16
-			{11, std::vector<std::string> {"1.17"}}, // 1.17
+			{11, std::vector<std::string> {"1.17", "1.17.1"}}, // 1.17
 		}
 	},
 	{
@@ -115,7 +115,7 @@ std::map<int, std::map<int, std::vector<std::string> > > versions{ // a map that
 			{1, std::vector<std::string> {"1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"}}, // 1.14
 			{2, std::vector<std::string> {"1.15", "1.15.1", "1.15.2"}}, // 1.15
 			{3, std::vector<std::string> {"1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5"}}, // 1.16
-			{4, std::vector<std::string> {"1.17"}}, // 1.16
+			{4, std::vector<std::string> {"1.17", "1.17.1"}}, // 1.17
 		}
 	},
 	{
@@ -130,7 +130,7 @@ std::map<int, std::map<int, std::vector<std::string> > > versions{ // a map that
 			{8, std::vector<std::string> {"1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"}}, // 1.14
 			{9, std::vector<std::string> {"1.15", "1.15.1", "1.15.2"}}, // 1.15
 			{10, std::vector<std::string> {"1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5"}}, // 1.16
-			{11, std::vector<std::string> {"1.17"}}, // 1.16
+			{11, std::vector<std::string> {"1.17", "1.17.1"}}, // 1.17
 		}
 	},
 	{
@@ -145,7 +145,7 @@ std::map<int, std::map<int, std::vector<std::string> > > versions{ // a map that
 			{8, std::vector<std::string> {"1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"}}, // 1.14
 			{9, std::vector<std::string> {"1.15", "1.15.1", "1.15.2"}}, // 1.15
 			{10, std::vector<std::string> {"1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5"}}, // 1.16
-			{11, std::vector<std::string> {"1.17"}}, // 1.16
+			{11, std::vector<std::string> {"1.17", "1.17.1"}}, // 1.17
 		}
 	},
 	{
@@ -159,7 +159,7 @@ std::map<int, std::map<int, std::vector<std::string> > > versions{ // a map that
 			{7, std::vector<std::string> {"1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"}}, // 1.14
 			{8, std::vector<std::string> {"1.15", "1.15.1", "1.15.2"}}, // 1.15
 			{9, std::vector<std::string> {"1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5"}}, // 1.16
-			{10, std::vector<std::string> {"1.17"}}, // 1.16
+			{10, std::vector<std::string> {"1.17", "1.17.1"}}, // 1.17
 		}
 	},
 };

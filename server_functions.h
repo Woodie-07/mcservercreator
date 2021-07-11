@@ -507,10 +507,13 @@ create: // create point that can be jumped to
 	if (selectedMajorVersion >= 17) requiredMajorJavaVersion = 16; // if it is minecraft 1.17 or above, the minimum java version is 16
 
 	if (serverSoftwareIndex == 2) {
-		if (javaCheck(true, requiredMajorJavaVersion) == 1) return (1); // if forge is selected and the user chooses not to install java, the program will exit.
+		if (javaCheck(true, false, requiredMajorJavaVersion) == 1) return (1); // if forge is selected and the user chooses not to install java, the program will exit.
+	}
+	else if (serverSoftwareIndex == 3) {
+		if (javaCheck(false, true, requiredMajorJavaVersion) == 1) return (1); // if fabric is selected and the user chooses not to install java, the program will exit.
 	}
 	else {
-		javaCheck(false, requiredMajorJavaVersion); // check if java is installed
+		javaCheck(false, false, requiredMajorJavaVersion); // check if java is installed
 	}
 	cls(); // clear screen
 	

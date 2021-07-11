@@ -2,6 +2,7 @@
 #include <windows.h> // Windows API stuff
 #include <iostream> 
 #include <sstream>
+#include <stdlib.h>
 
 void error(std::string errorCode = "Unknown Error") { // function called when there has been an error
 	std::cout << "MCServerCreator has encountered an error and cannot continue. Please try again and if you still get this error, let me know on Discord.\n";
@@ -30,9 +31,18 @@ bool isNumber(const std::string& s)
 		s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
 
+// returns an env as an std::string (not null if the env var doesn't exist)
+std::string env(const char* name)
+{
+	const char* ret = getenv(name);
+	if (!ret) return "";
+	return std::string(ret);
+}
+
 // check if java is installed and working
-int javaCheck(bool forge, int requiredJavaMajorVersion) {
-	std::string javaHome = getenv("JAVA_HOME"); // get value of JAVA_HOME environment variable
+int javaCheck(bool forge, bool fabric, int requiredJavaMajorVersion) {
+
+	std::string javaHome = env("JAVA_HOME"); // get value of JAVA_HOME environment variable
 
 	int javaMajorVersion = 0; // variable that will eventually contain the major version of java
 
@@ -69,10 +79,13 @@ int javaCheck(bool forge, int requiredJavaMajorVersion) {
 	std::string response;
 	if (javaMajorVersion == 0) {
 		if (forge) {
-			std::cout << "You either don't have Java or it is installed incorrectly. You cannot make a Forge server without Java. Would you like to install it? [Y/n] ";
+			std::cout << "Your JAVA_HOME variable doesn't exist so MCServerCreator cannot verify if Java is installed. You cannot make a Forge server without Java. Would you like to install it? [Y/n] ";
+		}
+		else if (fabric) {
+			std::cout << "Your JAVA_HOME variable doesn't exist so MCServerCreator cannot verify if Java is installed. You cannot make a Fabric server without Java. Would you like to install it? [Y/n] ";
 		}
 		else {
-			std::cout << "You either don't have Java or it is installed incorrectly. The server will not run without Java. Would you like to install it? [Y/n] ";
+			std::cout << "Your JAVA_HOME variable doesn't exist so MCServerCreator cannot verify if Java is installed. The server will not run without Java. Would you like to install it? [Y/n] ";
 		}
 		std::getline(std::cin, response);
 		if (response != "n" && response != "N") {
@@ -80,16 +93,17 @@ int javaCheck(bool forge, int requiredJavaMajorVersion) {
 			std::cout << "Taking you to the Java website. Make sure to download the 'Windows Offline 64-bit' version. \n";
 			system("pause");
 		}
-		else if (forge) {
+		else if (forge || fabric) {
 			return(1);
 		}
 	}
 	else if (javaMajorVersion < requiredJavaMajorVersion) { // if the current java macjor version is lower than the required one for the version
-		std::cout << "Your currently installed Java version is too old for the version of Minecraft you are trying to create a server for. Please update to at least Java " << requiredJavaMajorVersion << " or your server won't launch.\n"; // warn the user about the old java version
+		std::cout << "Your currently installed Java version is too old for the version of Minecraft you are trying to create a server for. Please update to at least Java " << requiredJavaMajorVersion << " or your server won't launch. When installing, make sure you tick the box (if any) to set the 'JAVA_HOME' variable. \n"; // warn the user about the old java version
 		std::cout << "Press any key to continue...\n";
 		_getch(); // wait until a key is pressed (give user time to read it)
 	}
 	else {
 		std::cout << "Java already installed.\n";
+		return 0;
 	}
 }
