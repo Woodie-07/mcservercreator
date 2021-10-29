@@ -4,12 +4,12 @@
 #include "download_functions.h"
 
 std::string getServerLoc(bool shouldContainServer) {
-enterpath: // another point that can be jumped to
-	std::cout << "Enter path to server folder (without a slash at the end): "; // ask user for folder to put the server
+enterpath:
+	std::cout << "Enter path to server folder (Without a slash at the end): "; // Ask user for folder
 	std::string serverLoc;
 	std::getline(std::cin, serverLoc); // get input
 
-	// check if server folder is valid
+	// Check if server folder is valid
 	if (!boost::filesystem::is_directory(serverLoc)) {
 		std::cout << "That folder doesn't exist. Make sure the path is correct.\n";
 		goto enterpath; // jump back to previous point
@@ -31,14 +31,14 @@ enterpath: // another point that can be jumped to
 }
 
 void removeOldJar(std::string serverLoc) {
-errorremoving: // add a point to jump to if removing the old server.jar fails
-	// if there is already a server.jar, we will remove it so we can upgrade the server to the version selected.
+errorremoving: // If removing server.jar failed
+	// If server.jar exist, it's needed to be removed so we can upgrade the server to the version selected.
 	if (boost::filesystem::exists(serverLoc + "\\server.jar")) {
 		try {
 			boost::filesystem::remove(serverLoc + "\\server.jar");
 		}
-		catch (...) { // catch any exception
-			std::cout << "\nThere was an error removing the old server.jar from the server directory. Make sure the server is not currently running and if it isn't, try running this program as admin.\n";
+		catch (...) { //Exception
+			std::cout << "\nThere was an error removing the server.jar from the server directory. Try removing the server.jar manually.\n";
 			system("pause");
 			cls();
 			goto errorremoving;
@@ -65,8 +65,8 @@ std::string getHRSoftware(int serverSoftwareIndex) {
 
 void writeStartBat(std::string serverLoc, bool aikarsFlags, bool gui, std::string RAM) {
 	std::ofstream startBat;
-	startBat.open(serverLoc + "\\start.bat"); // create start.bat
-	// depending on what the user chose, create the batch file they need
+	startBat.open(serverLoc + "\\start.bat"); // Create start.bat
+	// Depends on user choice, create the batch file if needed.
 	if (aikarsFlags) {
 		if (!boost::filesystem::exists(serverLoc + "\\fabric-server-launch.jar")) {
 			if (gui == false) {
@@ -109,7 +109,7 @@ void writeStartBat(std::string serverLoc, bool aikarsFlags, bool gui, std::strin
 // edits a server's start.bat file
 int editStartBat() {
 	editstartbat:
-	std::cout << "Enter path to server folder (without a slash at the end): ";
+	std::cout << "Enter path to server folder (Without a slash at the end): ";
 	std::string serverLoc;
 	std::string response;
 	std::getline(std::cin, serverLoc); // get input of server folder
@@ -120,7 +120,7 @@ int editStartBat() {
 		goto editstartbat;
 	}
 	if (!boost::filesystem::exists(serverLoc + "\\start.bat")) {
-		std::cout << "That folder doesn't contain a Minecraft server\n";
+		std::cout << "That folder doesn't contain a Minecraft server files.\n";
 		goto editstartbat;
 	}
 
@@ -136,7 +136,7 @@ int editStartBat() {
 	}
 	std::string RAM;
 editEnterRAM:
-	std::cout << "How much RAM would you like to allocate to the server? Make sure to enter it like 4G or 1024M: ";
+	std::cout << "How much amount of RAM would you like to allocate to the server? Enter it like 4G or 1024M: (4G is 4096 MB (4 GB) and 1024M is 1024 MB (1 GB))";
 	std::getline(std::cin, RAM);
 	bool validRAMChar = false;
 	if (RAM.back() == 'M' || RAM.back() == 'm' || RAM.back() == 'G' || RAM.back() == 'g') validRAMChar = true;
@@ -189,7 +189,7 @@ editFinalChoice:
 }
 
 int changeServerSoftware() {
-	std::string response; // a variable that user input will go in.
+	std::string response; // Variables setup
 changeserversoftware:
 	cls();
 
@@ -261,14 +261,14 @@ changeserversoftware:
 
 	// confirmation that the user wants to do things that may cause issues
 	if (installingOldVersion) {
-		std::cout << "You are trying to change your server to an older version than you currently have, this can cause world corruption and even cause your server to not start. A backup is highly recommended. Are you sure you want to do this? [y/N] ";
+		std::cout << "You are trying to change your server to an older version than you currently have, this can cause world corruption and even cause your server to not start. A backup is highly recommended. Are you sure you want to do this? [y/N] (N is recommended)";
 		std::getline(std::cin, response);
 		if (response != "y" && response != "Y") {
 			goto changeserversoftware; // if not then go back to the start so the user can do it again
 		}
 	}
 	if (forgeToNonForge) {
-		std::cout << "You are trying to change your server from Forge to non-Forge. This can cause world corruption. A backup is highly recommended. Are you sure you want to do this? [y/N] ";
+		std::cout << "You are trying to change your server from Forge to non-Forge. This can cause world corruption. A backup is highly recommended. Are you sure you want to do this? [y/N] (N is recommended)";
 		std::getline(std::cin, response);
 		if (response != "y" && response != "Y") {
 			goto changeserversoftware; // if not then go back to the start so the user can do it again
@@ -332,11 +332,11 @@ changeserversoftware:
 			}
 		}
 		if (worldName == "") {
-			std::cout << "Unable to automatically find the world name. Enter the world name ('no world' if your server doesn't have a world): ";
+			std::cout << "Unable to automatically find the world name. Enter the world name ('NO WORLD' With high caps f your server doesn't have a world yet.): ";
 			std::getline(std::cin, worldName); // get input
 		}
 		while (true) {
-			if (worldName == "no world") break; // if the user entered 'no world', break out of the while true loop, causing the world to not be touched
+			if (worldName == "NO WORLD") break; // if the user entered 'NO WORLD', break out of the while true loop, causing the world to not be touched
 			if (boost::filesystem::exists(serverLoc + "\\" + worldName)) {
 				if (boost::filesystem::exists(serverLoc + "\\" + worldName + "_nether\\DIM-1")) {
 					boost::filesystem::rename(serverLoc + "\\" + worldName + "_nether\\DIM-1", serverLoc + "\\" + worldName + "\\DIM-1");
